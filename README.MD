@@ -63,10 +63,10 @@ Attach the following permissions to your Lambda's execution role:
 - `ec2:DeleteSnapshot`  
 - `sns:Publish`  
 
- *Screenshot: Custom IAM policy for ec2:DescribeInstances*
+📸 *Screenshot: Custom IAM policy for ec2:DescribeInstances*
 ![Allow DescribeInstances](screenshots/Allow_Describe_Instances.png)
 
- *Screenshot: SNS Publish Permission*
+📸 *Screenshot: SNS Publish Permission*
 ![SNS Publish](screenshots/SNS_publish.png)
 
 ---
@@ -78,10 +78,10 @@ Attach the following permissions to your Lambda's execution role:
 - Add a **subscription method** (e.g., **Email**).
 - Confirm the subscription via the email link.
 
- *Screenshot: Subscription Notification*
+📸 *Screenshot: Subscription Notification*
 ![Subscription Notification](screenshots/Subscription_notification.png)
 
- *Screenshot: Subscription Confirmed*
+📸 *Screenshot: Subscription Confirmed*
 ![Subscription Confirmed](screenshots/Subscription_confirmed.png)
 
 ---
@@ -105,7 +105,7 @@ Attach the following permissions to your Lambda's execution role:
   -  **Delete** them
   -  **Send alert** via SNS to your email
 
- *Screenshot: Email Notification*
+📸 *Screenshot: Email Notification*
 ![Email Notification](screenshots/Email_notification.png)
 
 ---
