@@ -12,7 +12,6 @@ This project uses an AWS Lambda function to automatically identify and delete st
 
 ---
 
-
 ## 🔧 Tech Stack
 
 - **AWS Lambda** – Serverless function to automate cleanup  
@@ -23,7 +22,7 @@ This project uses an AWS Lambda function to automatically identify and delete st
 
 ---
 
-### ✅ Step-by-Step Deployment Guide
+## ✅ Step-by-Step Deployment Guide
 
 ---
 
@@ -32,6 +31,12 @@ This project uses an AWS Lambda function to automatically identify and delete st
 - Launch a test EC2 instance in any AWS region (e.g., `us-east-1`).
 - Attach an EBS volume.
 - Go to **EC2 → Volumes → Select volume → Create Snapshot**.
+
+📸 *Screenshot: EC2 instance*
+![EC2 Instance](screenshots/ec2_instance.png)
+
+📸 *Screenshot: Snapshot created*
+![Snapshot](screenshots/snapshot.png)
 
 ---
 
@@ -42,6 +47,9 @@ This project uses an AWS Lambda function to automatically identify and delete st
 - Use the code from `lambda_function.py` in this repository.
 - Under **Configuration → General**, set **timeout** to **10 seconds**.
 - Deploy the function.
+
+📸 *Screenshot: Lambda function created*
+![Lambda Function](screenshots/lambda_function.png)
 
 ---
 
@@ -55,7 +63,11 @@ Attach the following permissions to your Lambda's execution role:
 - `ec2:DeleteSnapshot`  
 - `sns:Publish`  
 
-- create a **custom inline policy** granting exactly the actions above.
+ *Screenshot: Custom IAM policy for ec2:DescribeInstances*
+![Allow DescribeInstances](screenshots/Allow_Describe_Instances.png)
+
+ *Screenshot: SNS Publish Permission*
+![SNS Publish](screenshots/SNS_publish.png)
 
 ---
 
@@ -66,6 +78,12 @@ Attach the following permissions to your Lambda's execution role:
 - Add a **subscription method** (e.g., **Email**).
 - Confirm the subscription via the email link.
 
+ *Screenshot: Subscription Notification*
+![Subscription Notification](screenshots/Subscription_notification.png)
+
+ *Screenshot: Subscription Confirmed*
+![Subscription Confirmed](screenshots/Subscription_confirmed.png)
+
 ---
 
 ### 5. First Test: No Deletion Expected
@@ -74,6 +92,9 @@ Attach the following permissions to your Lambda's execution role:
 - Run the Lambda function from the **Test** tab.
 - Expected: No snapshots should be deleted.
 
+📸 *Screenshot: Successful Lambda Test*
+![Successful Lambda Test](screenshots/Successful_lambda_test.png)
+
 ---
 
 ### 6. Second Test: Trigger Deletion
@@ -81,5 +102,44 @@ Attach the following permissions to your Lambda's execution role:
 - **Terminate the EC2 instance**.
 - Run Lambda again.
 - It will detect stale snapshots and:
-  - **Delete** them
-  - **Send alert** via SNS to your email
+  -  **Delete** them
+  -  **Send alert** via SNS to your email
+
+ *Screenshot: Email Notification*
+![Email Notification](screenshots/Email_notification.png)
+
+---
+
+### 🔒 IAM Summary
+
+Permissions required for Lambda role:
+
+- `ec2:DescribeInstances`  
+- `ec2:DescribeSnapshots`  
+- `ec2:DescribeVolumes`  
+- `ec2:DeleteSnapshot`  
+- `sns:Publish`
+
+---
+
+## 🧠 What You’ll Learn
+
+- Automating snapshot cleanup workflows  
+- Working with IAM and cross-service policies  
+- Serverless scripting with Python and boto3  
+- Integrating notifications via SNS  
+- Implementing cloud cost optimization logic  
+
+---
+
+## 🧭 Next Steps
+
+-  Add estimated savings log to SNS email
+-  Implement tag-based retention filtering
+-  Add security checks to avoid deleting tagged backups
+
+---
+
+## 🤝 Contributing
+
+Feel free to fork this project, use it in production, or extend its functionality. If it helped you save on AWS billing — give it a ⭐ on GitHub!
