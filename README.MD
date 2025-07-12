@@ -1,3 +1,18 @@
+# 🚀 AWS EBS Snapshot Cleaner | Automated Cost Optimization with Lambda & SNS
+
+This project uses an AWS Lambda function to automatically identify and delete stale EBS snapshots — including those from unattached, stopped, or deleted volumes — and sends real-time alerts via Amazon SNS. It's a fully serverless, cost-saving automation aligned with real-world DevOps and FAANG-level infrastructure patterns.
+
+---
+
+## 🔍 Why This Matters
+
+-  **Reduces AWS costs** by removing unused EBS snapshots that silently incur charges.
+-  **Production-style architecture** with alerting and permission boundaries.
+-  **FAANG-relevant tools**: AWS Lambda, IAM, EC2, SNS, boto3, infrastructure scripting.
+
+---
+
+
 ## 🔧 Tech Stack
 
 - **AWS Lambda** – Serverless function to automate cleanup  
