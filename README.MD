@@ -92,9 +92,6 @@ Attach the following permissions to your Lambda's execution role:
 - Run the Lambda function from the **Test** tab.
 - Expected: No snapshots should be deleted.
 
-📸 *Screenshot: Successful Lambda Test*
-![Successful Lambda Test](screenshots/Successful_lambda_test.png)
-
 ---
 
 ### 6. Second Test: Trigger Deletion
@@ -104,6 +101,9 @@ Attach the following permissions to your Lambda's execution role:
 - It will detect stale snapshots and:
   -  **Delete** them
   -  **Send alert** via SNS to your email
+
+📸 *Screenshot: Successful Lambda Test*
+![Successful Lambda Test](screenshots/Successful_lambda_test.png)
 
 📸 *Screenshot: Email Notification*
 ![Email Notification](screenshots/Email_notification.png)
