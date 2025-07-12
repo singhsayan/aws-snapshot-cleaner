@@ -42,7 +42,7 @@ def lambda_handler(event, context):
                     deleted_snapshots.append(f"{snapshot_id} (volume not found)")
                     print(f"Deleted EBS snapshot {snapshot_id} as its associated volume was not found.")
 
-    # 🔔 Send SNS notification if any snapshot was deleted
+    #  Send SNS notification if any snapshot was deleted
     if deleted_snapshots:
         message = "Deleted EBS Snapshots:\n" + "\n".join(deleted_snapshots)
         sns.publish(
