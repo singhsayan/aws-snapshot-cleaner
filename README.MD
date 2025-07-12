@@ -23,8 +23,6 @@ This project uses an AWS Lambda function to automatically identify and delete st
 
 ---
 
-## 🚀 Getting Started
-
 ### ✅ Step-by-Step Deployment Guide
 
 ---
