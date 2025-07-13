@@ -105,7 +105,7 @@ Attach the following permissions to your Lambda's execution role:
 ![Successful Lambda Test](screenshots/Successful_lambda_test.png)
 
 📸 *Screenshot: Email Notification*
-![Email Notification](screenshots/Email_notification.png)
+![Email Notification](screenshots/Email_Notification.png)
 
 ---
 
