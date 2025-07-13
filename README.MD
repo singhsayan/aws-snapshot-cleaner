@@ -1,6 +1,6 @@
 # 🚀 AWS EBS Snapshot Cleaner | Automated Cost Optimization with Lambda & SNS
 
-This project uses an AWS Lambda function to automatically identify and delete stale EBS snapshots — including those from unattached, stopped, or deleted volumes — and sends real-time alerts via Amazon SNS. It's a fully serverless, cost-saving automation aligned with real-world DevOps and FAANG-level infrastructure patterns.
+This project uses an AWS Lambda function to automatically identify and delete stale EBS snapshots — including those from unattached, stopped, or deleted volumes. If a snapshot is older than 30 days or hasn’t been in use for 30 days, it qualifies for deletion. For testing purposes, the threshold is currently set to 0 days to allow immediate evaluation. The function also estimates monthly cost savings based on snapshot size and notifies users via Amazon SNS. It’s a fully serverless, cost-optimization solution aligned with modern cloud infrastructure and DevOps best practices.
 
 ---
 
@@ -132,8 +132,6 @@ Permissions required for Lambda role:
 ---
 
 ## 🧭 Next Steps
-
--  Add estimated savings log to SNS email
 -  Implement tag-based retention filtering
 -  Add security checks to avoid deleting tagged backups
 
