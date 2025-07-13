@@ -29,8 +29,7 @@ This project uses an AWS Lambda function to automatically identify and delete st
 ### 1. Launch an EC2 Instance & Snapshot
 
 - Launch a test EC2 instance in any AWS region (e.g., `us-east-1`).
-- Attach an EBS volume.
-- Go to **EC2 → Volumes → Select volume → Create Snapshot**.
+- Go to **EC2 → Snapshots → Select volume → Create Snapshot**.
 
 📸 *Screenshot: EC2 instance*
 ![EC2 Instance](screenshots/ec2_instance.png)
