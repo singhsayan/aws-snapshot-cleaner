@@ -42,7 +42,7 @@ This project uses an AWS Lambda function to automatically identify and delete st
 ### 2. Set Up the Lambda Function
 
 - Go to **AWS Lambda → Create Function**.
-- Set **runtime** to **Python 3.12** or later.
+- Set **runtime** to **Python 3.13** or later.
 - Use the code from `lambda_function.py` in this repository.
 - Under **Configuration → General**, set **timeout** to **10 seconds**.
 - Deploy the function.
