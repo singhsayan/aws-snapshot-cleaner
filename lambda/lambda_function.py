@@ -1,53 +1,61 @@
 import boto3
+from datetime import datetime, timezone, timedelta
 
 def lambda_handler(event, context):
     ec2 = boto3.client('ec2')
     sns = boto3.client('sns')
-    
-    # Replace with your actual SNS topic ARN
-    SNS_TOPIC_ARN = 'arn:aws:sns:us-east-1:<your-account-id>:snapshot-alerts'
 
-    deleted_snapshots = []  # Collect deleted snapshot IDs
+    SNS_TOPIC_ARN = 'arn:aws:sns:us-east-1:711387122039:snapshot-alerts'
+    COST_PER_GB = 0.05  # USD/month
+    AGE_THRESHOLD_DAYS = 30
 
-    # Get all EBS snapshots
+    deleted_snapshots = []
+    total_estimated_savings = 0.0
+
+    # Get current time
+    now = datetime.now(timezone.utc)
+
+    # Get all snapshots owned by you
     response = ec2.describe_snapshots(OwnerIds=['self'])
 
-    # Get all active EC2 instance IDs
-    instances_response = ec2.describe_instances(Filters=[{'Name': 'instance-state-name', 'Values': ['running']}])
-    active_instance_ids = set()
-
-    for reservation in instances_response['Reservations']:
-        for instance in reservation['Instances']:
-            active_instance_ids.add(instance['InstanceId'])
-
-    # Iterate through each snapshot and delete if it's not attached to any volume or the volume is not attached to a running instance
     for snapshot in response['Snapshots']:
         snapshot_id = snapshot['SnapshotId']
         volume_id = snapshot.get('VolumeId')
+        start_time = snapshot['StartTime']
+        age = (now - start_time).days
 
-        if not volume_id:
-            ec2.delete_snapshot(SnapshotId=snapshot_id)
-            deleted_snapshots.append(f"{snapshot_id} (no volume)")
-            print(f"Deleted EBS snapshot {snapshot_id} as it was not attached to any volume.")
-        else:
-            try:
+        # Only consider if older than threshold
+        if age < AGE_THRESHOLD_DAYS:
+            continue
+
+        size_gb = snapshot['VolumeSize']
+
+        try:
+            if not volume_id:
+                ec2.delete_snapshot(SnapshotId=snapshot_id)
+                deleted_snapshots.append(f"{snapshot_id} (no volume, age: {age} days)")
+                total_estimated_savings += size_gb * COST_PER_GB
+            else:
                 volume_response = ec2.describe_volumes(VolumeIds=[volume_id])
                 if not volume_response['Volumes'][0]['Attachments']:
                     ec2.delete_snapshot(SnapshotId=snapshot_id)
-                    deleted_snapshots.append(f"{snapshot_id} (volume not attached)")
-                    print(f"Deleted EBS snapshot {snapshot_id} as it was taken from a volume not attached to any running instance.")
-            except ec2.exceptions.ClientError as e:
-                if e.response['Error']['Code'] == 'InvalidVolume.NotFound':
-                    ec2.delete_snapshot(SnapshotId=snapshot_id)
-                    deleted_snapshots.append(f"{snapshot_id} (volume not found)")
-                    print(f"Deleted EBS snapshot {snapshot_id} as its associated volume was not found.")
+                    deleted_snapshots.append(f"{snapshot_id} (volume not attached, age: {age} days)")
+                    total_estimated_savings += size_gb * COST_PER_GB
+        except ec2.exceptions.ClientError as e:
+            if e.response['Error']['Code'] == 'InvalidVolume.NotFound':
+                ec2.delete_snapshot(SnapshotId=snapshot_id)
+                deleted_snapshots.append(f"{snapshot_id} (volume not found, age: {age} days)")
+                total_estimated_savings += size_gb * COST_PER_GB
 
-    #  Send SNS notification if any snapshot was deleted
+    # Send SNS alert
     if deleted_snapshots:
-        message = "Deleted EBS Snapshots:\n" + "\n".join(deleted_snapshots)
+        message = (
+            "Deleted the following stale EBS Snapshots:\n\n" +
+            "\n".join(deleted_snapshots) +
+            f"\n\n Estimated Monthly Savings: ${total_estimated_savings:.2f}"
+        )
         sns.publish(
             TopicArn=SNS_TOPIC_ARN,
-            Subject="Deleted Unused EBS Snapshots",
+            Subject="EBS Snapshot Cleanup & Cost Savings",
             Message=message
         )
-
