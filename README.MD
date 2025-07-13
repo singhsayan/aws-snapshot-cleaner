@@ -8,7 +8,7 @@ This project uses an AWS Lambda function to automatically identify and delete st
 
 -  **Reduces AWS costs** by removing unused EBS snapshots that silently incur charges.
 -  **Production-style architecture** with alerting and permission boundaries.
--  **FAANG-relevant tools**: AWS Lambda, IAM, EC2, SNS, boto3, infrastructure scripting.
+-  **Production-relevant tools**: AWS Lambda, IAM, EC2, SNS, boto3, infrastructure scripting.
 
 ---
 
