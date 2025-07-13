@@ -5,7 +5,7 @@ def lambda_handler(event, context):
     ec2 = boto3.client('ec2')
     sns = boto3.client('sns')
 
-    SNS_TOPIC_ARN = 'arn:aws:sns:us-east-1:711387122039:snapshot-alerts'
+    SNS_TOPIC_ARN = 'arn:aws:sns:us-east-1:<Your Account Id>:snapshot-alerts'
     COST_PER_GB = 0.05  # USD/month
     AGE_THRESHOLD_DAYS = 30
 
