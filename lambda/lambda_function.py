@@ -5,7 +5,7 @@ def lambda_handler(event, context):
     sns = boto3.client('sns')
     
     # Replace with your actual SNS topic ARN
-    SNS_TOPIC_ARN = 'arn:aws:sns:us-east-1:711387122039:snapshot-alerts'
+    SNS_TOPIC_ARN = 'arn:aws:sns:us-east-1:<your-account-id>:snapshot-alerts'
 
     deleted_snapshots = []  # Collect deleted snapshot IDs
 
