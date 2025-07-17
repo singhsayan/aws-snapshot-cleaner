@@ -140,3 +140,4 @@ Permissions required for Lambda role:
 ##  Contributing
 
 Feel free to fork this project, use it in production, or extend its functionality. If it helped you save on AWS billing — give it a ⭐ on GitHub!
+Testing  trigger 
